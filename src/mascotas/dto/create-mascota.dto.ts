@@ -3,4 +3,5 @@ export class CreateMascotaDto {
     especie: string;
     sexo: string;
     edad: number;
+    picture?: string;
 }

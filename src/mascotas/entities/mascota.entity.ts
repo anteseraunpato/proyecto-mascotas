@@ -16,4 +16,7 @@ export class Mascota {
 
     @Column()
     edad: number;
+
+    @Column({ nullable: true })
+    picture?: string;
 }
