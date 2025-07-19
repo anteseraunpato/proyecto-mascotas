@@ -8,13 +8,13 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class MascotasService {
   constructor(
-      @InjectRepository(Mascota)
-      private mascotaRepository: Repository<Mascota>,
-    ){
-  
-    }
-  async create(createMascotaDto: CreateMascotaDto) {
-    return await this.mascotaRepository.save(createMascotaDto);
+    @InjectRepository(Mascota)
+    private mascotaRepository: Repository<Mascota>,
+  ) {}
+
+   async create(createMascotaDto: CreateMascotaDto) {
+    const mascota = this.mascotaRepository.create(createMascotaDto);
+    return await this.mascotaRepository.save(mascota); // Guarda todo (incluyendo picture)
   }
 
   async findAll() {
@@ -26,7 +26,8 @@ export class MascotasService {
   }
 
   async update(id: number, updateMascotaDto: UpdateMascotaDto) {
-    return await this.mascotaRepository.update(id, updateMascotaDto);
+    await this.mascotaRepository.update(id, updateMascotaDto);
+    return this.mascotaRepository.findOneBy({ id });
   }
 
   async remove(id: number) {
