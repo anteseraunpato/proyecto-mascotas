@@ -17,12 +17,12 @@ import { AppService } from './app.service';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.1.78',
+      host: '192.168.68.125',
       port: 3306,
       username: 'root',
-      password: '17082009',
-      database: 'huellaapp',
-      entities: [Usuario, Mascota],
+      password: '12345',
+      database: 'huellapp',
+      entities:[Usuario,Mascota],
       synchronize: true,
     }),
 
