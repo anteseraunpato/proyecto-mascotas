@@ -5,5 +5,5 @@ export class CreateUsuarioDto {
     password: string;
     direccion?: string;
     telefono?: string;
-    mascotasRegistradas?: number; // IDs de mascotas asociadas
+    picture?:string; // IDs de mascotas asociadas
 }

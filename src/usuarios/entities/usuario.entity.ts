@@ -21,6 +21,7 @@ export class Usuario {
     telefono?: string;
 
     @Column({ nullable: true })
-    mascotasRegistradas?: number;
+    picture?: string;
+
 }
 
