@@ -20,14 +20,14 @@ export class Mascota {
     @Column()
     sexo: string;
 
-    @Column()
+    @Column({ nullable: true })
     caracteristicas: string;
 
     @Column()
     edad: number;
 
-    @Column({ nullable: true })
-    gpsId?: number;
+    @Column({ nullable: true, type: 'varchar' }) // Cambiado a string
+    gpsId?: string;
 
     @Column({ nullable: true })
     picture?: string;

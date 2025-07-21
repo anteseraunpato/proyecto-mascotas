@@ -2,10 +2,10 @@ export class CreateMascotaDto {
     nombre: string;
     raza: string;
     color: string;
-    caracteristicas: string;
+    caracteristicas?: string;
     especie: string;
     sexo: string;
-    gpsId?: number;
+    gpsId?: string;
     edad: number;
     picture?: string;
 }
