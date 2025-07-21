@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, ParseIntPipe } from '@nestjs/common';
 import { MascotasService } from './mascotas.service';
 import { CreateMascotaDto } from './dto/create-mascota.dto';
 import { UpdateMascotaDto } from './dto/update-mascota.dto';
@@ -6,25 +6,29 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
+
 @Controller('mascotas')
 export class MascotasController {
   constructor(
     private readonly mascotasService: MascotasService,
-    private readonly cloudinaryService: CloudinaryService, 
-  ) {}
+    private readonly cloudinaryService: CloudinaryService,
+  ) { }
 
   @Post()
-  @UseInterceptors(FileInterceptor('picture')) // 'picture' debe coincidir con el campo en FormData
-
+  @UseInterceptors(FileInterceptor('picture'))
   async create(
     @Body() createMascotaDto: CreateMascotaDto,
     @UploadedFile() picture?: Express.Multer.File,
   ) {
-    // Subir imagen a Cloudinary y obtener URL
-    const cloudinaryResponse = picture ? await this.cloudinaryService.uploadFile(picture) : { secure_url: '' };
-    createMascotaDto.picture = cloudinaryResponse.secure_url; // Asignar URL al DTO
+    // Convertir edad a número
+    createMascotaDto.edad = Number(createMascotaDto.edad);
 
-    // Guardar en la base de datos (incluyendo la URL)
+    // Subir imagen a Cloudinary si existe
+    if (picture) {
+      const cloudinaryResponse = await this.cloudinaryService.uploadFile(picture);
+      createMascotaDto.picture = cloudinaryResponse.secure_url;
+    }
+
     return this.mascotasService.create(createMascotaDto);
   }
 
@@ -40,12 +44,26 @@ export class MascotasController {
   }
 
   @Patch(':id')
+  @UseInterceptors(FileInterceptor('picture'))
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateMascotaDto: UpdateMascotaDto,
+    @UploadedFile() picture?: Express.Multer.File,
   ) {
-    return await this.mascotasService.update(+id, updateMascotaDto);
+    // Limpiar el DTO de campos no definidos
+    const cleanDto = Object.fromEntries(
+      Object.entries(updateMascotaDto).filter(([_, v]) => v !== undefined && v !== null)
+    );
+
+    if (picture) {
+      const cloudinaryResponse = await this.cloudinaryService.uploadFile(picture);
+      cleanDto.picture = cloudinaryResponse.secure_url;
+    }
+
+    return this.mascotasService.update(id, cleanDto);
   }
+
+
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

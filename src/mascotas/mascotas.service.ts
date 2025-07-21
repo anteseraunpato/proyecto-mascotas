@@ -10,9 +10,9 @@ export class MascotasService {
   constructor(
     @InjectRepository(Mascota)
     private mascotaRepository: Repository<Mascota>,
-  ) {}
+  ) { }
 
-   async create(createMascotaDto: CreateMascotaDto) {
+  async create(createMascotaDto: CreateMascotaDto) {
     const mascota = this.mascotaRepository.create(createMascotaDto);
     return await this.mascotaRepository.save(mascota); // Guarda todo (incluyendo picture)
   }
@@ -26,9 +26,20 @@ export class MascotasService {
   }
 
   async update(id: number, updateMascotaDto: UpdateMascotaDto) {
-    await this.mascotaRepository.update(id, updateMascotaDto);
-    return this.mascotaRepository.findOneBy({ id });
+  // Validar que el ID sea un número válido
+  if (isNaN(id)) {
+    throw new Error('ID de mascota inválido');
   }
+
+  // Limpiar el DTO de valores undefined/null
+  const cleanDto = Object.fromEntries(
+    Object.entries(updateMascotaDto).filter(([_
+, v]) => v !== undefined && v !== null)
+  );
+
+  await this.mascotaRepository.update(id, cleanDto);
+  return this.mascotaRepository.findOneBy({ id });
+}
 
   async remove(id: number) {
     return await this.mascotaRepository.delete(id);

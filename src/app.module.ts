@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
-import { MulterModule } from '@nestjs/platform-express'; // 👈 Importa esto
+import { MulterModule } from '@nestjs/platform-express'; 
 import { SensoresModule } from './sensores/sensores.module';
 import { MascotasModule } from './mascotas/mascotas.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from './usuarios/entities/usuario.entity';
 import { Mascota } from './mascotas/entities/mascota.entity';
-import { CloudinaryModule } from './cloudinary/cloudinary.module';
+
 import { ConfigModule } from '@nestjs/config';
-import * as multer from 'multer'; // 👈 También importa multer directamente
+import * as multer from 'multer'; 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Ubicacion } from './ubicaciones/entities/ubicacion.entity';
+import { UbicacionesModule } from './ubicaciones/ubicaciones.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -23,6 +26,7 @@ import { AppService } from './app.service';
       password: '12345',
       database: 'huellapp',
       entities:[Usuario,Mascota],
+      master
       synchronize: true,
     }),
 
@@ -30,14 +34,14 @@ import { AppService } from './app.service';
     MulterModule.register({
       storage: multer.memoryStorage(),
     }),
-
     SensoresModule,
     MascotasModule,
     UsuariosModule,
     CloudinaryModule,
+    UbicacionesModule,
   ],
   controllers: [AppController,],
-  providers: [AppService,AppController],
+  providers: [AppService,],
 }
 )
 export class AppModule {}
