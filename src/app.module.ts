@@ -19,7 +19,7 @@ import { UbicacionesModule } from './ubicaciones/ubicaciones.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.0.40',
+      host: '192.168.100.190',
       port: 3306,
       username: 'root',
       password: '17082009',
