@@ -8,7 +8,7 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { CloudinaryProvider } from 'src/cloudinary/cloudinary.provider';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
-@Module({imports: [TypeOrmModule.forFeature([Usuario,Mascota]),CloudinaryModule],// Add your imports here if needed
+@Module({imports: [TypeOrmModule.forFeature([Usuario,Mascota,]),CloudinaryModule],// Add your imports here if needed
   controllers: [MascotasController],
   providers: [MascotasService,CloudinaryProvider,CloudinaryService],
 })

@@ -8,3 +8,5 @@ export class CreateUbicacionDto {
   @IsNumber()
   longitud: number;
 }
+
+

@@ -11,22 +11,23 @@ import { ConfigModule } from '@nestjs/config';
 import * as multer from 'multer'; 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Ubicacion } from './ubicaciones/entities/ubicacion.entity';
 import { UbicacionesModule } from './ubicaciones/ubicaciones.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { DispositivosModule } from './dispositivos/dispositivos.module';
+import { Ubicacion } from './ubicaciones/entities/ubicacion.entity';
+import { Dispositivo } from './dispositivos/entities/dispositivo.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.68.125',
+      host: '192.168.68.146',
       port: 3306,
       username: 'root',
-      password: '12345',
-      database: 'huellapp',
-      entities:[Usuario,Mascota],
-      master
+      password: '17082009',
+      database: 'huellaapp',
+      entities: [Usuario, Mascota,Ubicacion,Dispositivo],
       synchronize: true,
     }),
 
@@ -39,6 +40,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     UsuariosModule,
     CloudinaryModule,
     UbicacionesModule,
+    DispositivosModule,
   ],
   controllers: [AppController,],
   providers: [AppService,],
