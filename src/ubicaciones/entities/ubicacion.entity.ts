@@ -14,3 +14,4 @@ export class Ubicacion {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   fecha: Date;
 }
+
